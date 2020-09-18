@@ -1,0 +1,39 @@
+.activities-container {
+  grid-area: r;
+  background-color: #2b2733;
+}
+
+.no-activity-msg {
+  margin-left: 5%;
+  text-align: center;
+}
+
+.activities-inner-container {
+  display: flex;
+  flex-direction: column;
+  margin: 0 5%;
+}
+
+.activity-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.activity-section-header img {
+  height: 24px;
+  width: 24px;
+  margin-right: .7em;
+}
+
+.activity-icons {
+  margin-right: 5%;
+}
+
+/* .activity-icons:hover {
+  cursor: pointer;
+} */
+
+.activity-icons img {
+  cursor: pointer
+}
