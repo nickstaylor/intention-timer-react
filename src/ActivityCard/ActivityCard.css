@@ -1,0 +1,96 @@
+.activity-card-container {
+  margin-bottom: 3%;
+  background-color: #46424D;
+  border-radius: 5px;
+  box-shadow: 3px 3px #26222D;
+  padding-left: 2%;
+}
+
+.activity-card-subcontainer {
+  height: 4.5em;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  margin-right: 2%;
+  margin-top: 2%;
+}
+
+.ac-top {
+  height: 45%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1%
+}
+.activity-min-sec {
+  text-transform: uppercase;
+  padding: 0 .5em
+}
+
+.activity-exercise {
+  color: #FD8078;
+  font-weight: bold;
+}
+
+.activity-meditate {
+  color :#C278FD;
+  font-weight: bold;
+}
+
+.activity-study {
+  font-weight: bold;
+  color: #B3FD78;
+}
+
+.ac-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 50%
+}
+
+
+/* .ac-bottom img {
+  height: 21px;
+  width: 25px;
+  padding-left: 5px;
+  padding-top: 5px
+} */
+
+.ac-bottom .heart {
+  height: 24px;
+  width: 22px;
+  padding-left: 5px;
+  /* margin-top: 5px; */
+}
+
+.ac-bottom .delete-img {
+  height: 23px;
+  width: 18px;
+  padding-left: 5px
+}
+
+.ac-bottom .replay-image {
+    height: 23px;
+    width: 18px;
+    padding-left: 5px
+}
+
+.activity-btns {
+  padding-right: 9px
+}
+
+.activity-btns img {
+  cursor: pointer;
+}
+
+.exercise {
+  border-right: 5px solid #FD8078
+}
+
+.meditate {
+  border-right: 5px solid #C278FD
+}
+
+.study {
+  border-right: 5px solid #B3FD78
+}
