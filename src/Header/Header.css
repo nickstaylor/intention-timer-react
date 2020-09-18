@@ -1,0 +1,9 @@
+header {
+  grid-area: h;
+  display: flex;
+  justify-content: center;
+  background-color: #46424D;
+  align-items: center;
+  font-size: 1.5em;
+  text-transform: uppercase;
+}
