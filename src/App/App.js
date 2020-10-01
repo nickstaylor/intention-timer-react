@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import Header from "../Header/Header";
 import Form from "../Form/Form";
@@ -65,13 +65,18 @@ function App() {
     type: "study",
   };
 
-  const [activities, setActivities] = useState(activityData);
+  const [allActivities, setAllActivities] = useState([])
   const [currentActivity, setCurrentActivity] = useState("");
   const [activityType, setActivityType] = useState("");
 
   const beginActivity = (activity) => {
     setCurrentActivity(activity);
   };
+
+  useEffect(() => {
+    setAllActivities(activityData)
+  }, [])
+
 
   const logActivity = () => {
     let loggedActivity = {
@@ -81,30 +86,31 @@ function App() {
     };
 
     console.log("logged activity", loggedActivity);
-    let updatedActivities = [loggedActivity, ...activities];
-    setActivities(updatedActivities);
+    let updatedActivities = [loggedActivity, ...allActivities];
+    setAllActivities(updatedActivities);
+    setActivityType('')
   };
 
-  const deleteActivity = (id, type) => {
-    let updatedActivities = activities.filter((activity) => activity.id !== id);
-    setActivities(updatedActivities);
-    setActivityType(type);
+  const deleteActivity = (id) => {
+    let updatedActivities = allActivities.filter((activity) => activity.id !== id);
+    setAllActivities(updatedActivities);
   };
 
-  const favoriteActivity = (id, type) => {
-    console.log("type", type);
-    let updatedActivities = activities.map((activity) => {
+  const favoriteActivity = (id) => {
+    let updatedActivities = allActivities.map((activity) => {
       if (activity.id === id) {
         activity.favorite = !activity.favorite;
       }
       return activity;
     });
-    setActivities(updatedActivities);
-    setActivityType(type);
+    setAllActivities(updatedActivities);
   };
 
+  const filteredActivitites = (type) => {
+    activityType === type ? setActivityType('') : setActivityType(type)
+   };
+
   const replayActivity = (activity) => {
-    console.log(activity);
     setCurrentActivity({
       type: activity.type,
       description: activity.description,
@@ -114,7 +120,9 @@ function App() {
     });
   };
 
-  console.log("app activities", activities);
+  console.log("app allActivities", allActivities);
+  console.log("app ActivityType", activityType);
+
   return (
     <div className="App">
       <Header />
@@ -129,7 +137,7 @@ function App() {
         <Form beginActivity={beginActivity} />
       )}
 
-      {!activities.length ? (
+      {!allActivities.length ? (
         <section className="activities-container">
           <h2>Past Activities</h2>
           <p className="no-activity-msg">
@@ -138,8 +146,17 @@ function App() {
           <p className="no-activity-msg">Complete the form to get started!</p>
         </section>
       ) : (
-        <Activities
-          activities={activities}
+          <Activities
+            activities={activityType ?
+              allActivities.filter(item => {
+                if (activityType === 'favorites') {
+                return item.favorite === true
+                } else {
+                return item.type === activityType
+                }
+              }) : 
+              allActivities}
+          filteredActivitites={filteredActivitites}
           deleteActivity={deleteActivity}
           favoriteActivity={favoriteActivity}
           activityType={activityType}
