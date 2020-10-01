@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./TimerPage.css";
 import replay from "../images/replay.svg";
+import deleteIcon from "../images/delete.svg";
 
 const TimerPage = ({ activity, logActivity, setCurrentActivity }) => {
   // console.log('currentActivity', activity);
@@ -35,7 +36,7 @@ const TimerPage = ({ activity, logActivity, setCurrentActivity }) => {
       clearInterval(timer);
     }
     return () => clearInterval(timer);
-  }, [timerActive, seconds]);
+  }, [timerActive, seconds, minutes]);
 
   const activateTimer = () => {
     setTimerActive(!timerActive);
@@ -63,14 +64,20 @@ const TimerPage = ({ activity, logActivity, setCurrentActivity }) => {
         {!activityLogged ? (
           <>
             <section className="timer-column-box">
-              {timerCompleted && (
+              {timerCompleted ? (
                 <img
                   onClick={reloadActivity}
                   className="replay-img"
                   src={replay}
                   alt="replay"
-                />
-              )}
+                />) :
+                (<img
+                  onClick={() => setCurrentActivity('')}
+                  className="replay-img"
+                  src={deleteIcon}
+                  alt="delete"
+                />)
+              }
               <div className="top-timer-column-box">
                 <p>{activity.description}</p>
                 <p className="timer-display">
