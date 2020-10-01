@@ -35,6 +35,7 @@ const Activities = ({
     <div className="activities-container">
       <section className="activity-section-header">
         <h2>Past Activities</h2>
+        
         <div className="activity-icons">
           <img
             className="heart"
@@ -59,9 +60,16 @@ const Activities = ({
           />
         </div>
       </section>
-      <section className="activities-inner-container">
-        {displayedActivities}
-      </section>
+
+      {activities.length ? 
+        <section className="activities-inner-container">
+          {displayedActivities}
+        </section> : 
+        <> 
+          <p className="no-activity-msg">You haven't logged any {activityType} activities yet.</p>
+          <p className="no-activity-msg">Complete the form to get started {activityType === 'favorites' ? 'or favorite any activity!' : '!'} </p>
+        </>
+      }
     </div>
   );
 };
