@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./Activities.css";
 import ActivityCard from "../ActivityCard/ActivityCard";
 import heartFilled from "../images/heart-filled.svg";
@@ -16,90 +16,20 @@ const Activities = ({
   favoriteActivity,
   activityType,
   replayActivity,
+  filteredActivitites
 }) => {
-  const [active, setActive] = useState("");
-  const [activitiesDisplayed, setActivities] = useState("");
-  const [showFavorites, setShowFavorites] = useState(false);
 
-  // console.log('activities', activities);
-  useEffect(() => {
-    if (!activityType || activityType === undefined) {
-      console.log("there is no type", activityType);
-      setActivities(activities);
-      return;
-    }
-    if (activityType === "favorites") {
-      console.log("the type is favorites", activityType);
-      showFavoriteActivities();
-    } else {
-      console.log("there is a type:", activityType);
-      filteredActivitites(activityType);
-    }
-  }, [activities]);
-
-  const showFavoriteActivities = () => {
-    setActive("");
-    let updatedActivities = activities.filter(
-      (activity) => activity.favorite === true
-    );
-
-    if (showFavorites) {
-      setActivities(activities);
-      setShowFavorites(!showFavorites);
-      return;
-    }
-    setShowFavorites(!showFavorites);
-    setActivities(updatedActivities);
-  };
-
-  const filteredActivitites = (desc, id) => {
-    if (active === desc) {
-      setActive("");
-      setActivities(activities);
-      return;
-    }
-    let updatedActivities = activities.filter(
-      (activity) => activity.type === desc
-    );
-    setActive(desc);
-    setShowFavorites(false);
-    setActivities(updatedActivities);
-  };
-
-  const toggleFavorite = (id) => {
-    if (showFavorites) {
-      favoriteActivity(id, "favorites");
-      showFavoriteActivities();
-    } else {
-      favoriteActivity(id, active);
-      filteredActivitites(active, id);
-    }
-  };
-
-  const deleteActivityFromActivities = (id) => {
-    if (showFavorites) {
-      deleteActivity(id, "favorites");
-      showFavoriteActivities();
-    } else {
-      deleteActivity(id, active);
-      filteredActivitites(active, id);
-    }
-  };
-
-  let displayedActivities;
-  if (activitiesDisplayed) {
-    displayedActivities = activitiesDisplayed.map((activity, i) => {
+    let displayedActivities = activities.map((activity, i) => {
       return (
         <ActivityCard
           key={i}
           activity={activity}
-          deleteActivity={deleteActivityFromActivities}
-          favoriteActivity={toggleFavorite}
+          deleteActivity={deleteActivity}
+          favoriteActivity={favoriteActivity}
           replayActivity={replayActivity}
         />
       );
     });
-  }
 
   return (
     <div className="activities-container">
@@ -108,22 +38,22 @@ const Activities = ({
         <div className="activity-icons">
           <img
             className="heart"
-            src={showFavorites ? heartFilled : heartOutline}
+            src={activityType === "favorites" ? heartFilled : heartOutline}
             alt="all-favorites"
-            onClick={showFavoriteActivities}
+            onClick={() => filteredActivitites('favorites')}
           />
           <img
-            src={active === "study" ? studyActive : study}
+            src={activityType === "study" ? studyActive : study}
             alt="study-favorites"
             onClick={() => filteredActivitites("study")}
           />
           <img
-            src={active === "meditate" ? meditateActive : meditate}
+            src={activityType === "meditate" ? meditateActive : meditate}
             alt="meditate-favorites"
             onClick={() => filteredActivitites("meditate")}
           />
           <img
-            src={active === "exercise" ? exerciseActive : exercise}
+            src={activityType === "exercise" ? exerciseActive : exercise}
             alt="exercise-favorites"
             onClick={() => filteredActivitites("exercise")}
           />
