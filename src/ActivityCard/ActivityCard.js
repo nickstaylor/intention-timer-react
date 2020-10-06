@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./ActivityCard.css";
 import heartOutline from "../images/heart-outline.svg";
 import heartFilled from "../images/heart-filled.svg";
@@ -11,11 +11,6 @@ const ActivityCard = ({
   favoriteActivity,
   replayActivity,
 }) => {
-  const [favorite, setFavorite] = useState(activity.favorite);
-
-  useEffect(() => {
-    setFavorite(activity.favorite);
-  }, [activity.favorite]);
 
   return (
     <div className="activity-card-container">
@@ -38,7 +33,7 @@ const ActivityCard = ({
             />
             <img
               className="heart"
-              src={favorite ? heartFilled : heartOutline}
+              src={activity.favorite ? heartFilled : heartOutline}
               alt="favorite"
               onClick={() => favoriteActivity(activity.id)}
             />

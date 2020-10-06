@@ -65,18 +65,21 @@ function App() {
     type: "study",
   };
 
-  const [allActivities, setAllActivities] = useState([])
+  const [allActivities, setAllActivities] = useState(activityData)
   const [currentActivity, setCurrentActivity] = useState("");
   const [activityType, setActivityType] = useState("");
 
+  
+  useEffect(() => {
+    const savedStorageActivities = localStorage.getItem('savedActivities')
+    const savedActivities = JSON.parse(savedStorageActivities)
+    console.log('savedActivities', savedActivities);
+    savedActivities && setAllActivities(savedActivities)
+  }, [])
+  
   const beginActivity = (activity) => {
     setCurrentActivity(activity);
   };
-
-  useEffect(() => {
-    setAllActivities(activityData)
-  }, [])
-
 
   const logActivity = () => {
     let loggedActivity = {
@@ -87,12 +90,14 @@ function App() {
 
     console.log("logged activity", loggedActivity);
     let updatedActivities = [loggedActivity, ...allActivities];
+    localStorage.setItem('savedActivities', JSON.stringify(updatedActivities))
     setAllActivities(updatedActivities);
     setActivityType('')
   };
 
   const deleteActivity = (id) => {
     let updatedActivities = allActivities.filter((activity) => activity.id !== id);
+    localStorage.setItem('savedActivities', JSON.stringify(updatedActivities));
     setAllActivities(updatedActivities);
   };
 
@@ -120,13 +125,12 @@ function App() {
     });
   };
 
-  console.log("app allActivities", allActivities);
-  console.log("app ActivityType", activityType);
+  console.log("allActivities", allActivities);
+  console.log("ActivityType", activityType);
 
   return (
     <div className="App">
       <Header />
-
       {currentActivity ? (
         <TimerPage
           activity={currentActivity}
@@ -134,35 +138,25 @@ function App() {
           setCurrentActivity={setCurrentActivity}
         />
       ) : (
-        <Form beginActivity={beginActivity} />
+        <Form
+          beginActivity={beginActivity} />
       )}
-
-      {!allActivities.length ? (
-        <section className="activities-container">
-          <h2>Past Activities</h2>
-          <p className="no-activity-msg">
-            You haven't logged any activities yet.
-          </p>
-          <p className="no-activity-msg">Complete the form to get started!</p>
-        </section>
-      ) : (
-          <Activities
-            activities={activityType ?
-              allActivities.filter(item => {
-                if (activityType === 'favorites') {
-                return item.favorite === true
-                } else {
-                return item.type === activityType
-                }
-              }) : 
-              allActivities}
+        <Activities
+          activities={activityType ?
+            allActivities.filter(item => {
+              if (activityType === 'favorites') {
+              return item.favorite === true
+              } else {
+              return item.type === activityType
+              }
+            }) : 
+            allActivities}
           filteredActivitites={filteredActivitites}
           deleteActivity={deleteActivity}
           favoriteActivity={favoriteActivity}
           activityType={activityType}
           replayActivity={replayActivity}
         />
-      )}
     </div>
   );
 }
